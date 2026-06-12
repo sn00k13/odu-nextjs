@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { STRIPE_DONATE_URL } from '@/lib/constants';
+import DonationTypeModal from '@/components/DonationTypeModal';
 
 const EXPLORE = [
   { href: '/about',     label: 'About Us' },
@@ -12,12 +12,11 @@ const EXPLORE = [
 ];
 
 const SUPPORT = [
-  { href: '/support',        label: 'Support' },
-  { href: '/help',    label: 'Help Centre' },
-  { href: '/privacy', label: 'Privacy Policy' },
-  { href: '/security',       label: 'Security' },
-  { href: '/#faq',           label: 'FAQ' },
-  { href: STRIPE_DONATE_URL, label: 'Donate', external: true },
+  { href: '/support',  label: 'Support' },
+  { href: '/help',     label: 'Help Centre' },
+  { href: '/privacy',  label: 'Privacy Policy' },
+  { href: '/security', label: 'Security' },
+  { href: '/#faq',     label: 'FAQ' },
 ];
 
 export default function Footer() {
@@ -67,15 +66,17 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <h3 className="text-white text-sm font-semibold mb-4">Support</h3>
             <ul className="space-y-2.5">
-              {SUPPORT.map(({ href, label, external }) => (
+              {SUPPORT.map(({ href, label }) => (
                 <li key={href}>
-                  {external ? (
-                    <a href={href} target="_blank" rel="noreferrer" className="text-gray-300 text-sm hover:text-white transition-colors">{label}</a>
-                  ) : (
-                    <Link href={href} className="text-gray-300 text-sm hover:text-white transition-colors">{label}</Link>
-                  )}
+                  <Link href={href} className="text-gray-300 text-sm hover:text-white transition-colors">{label}</Link>
                 </li>
               ))}
+              <li>
+                <DonationTypeModal
+                  label="Donate"
+                  className="text-gray-300 text-sm hover:text-white transition-colors"
+                />
+              </li>
             </ul>
           </div>
 

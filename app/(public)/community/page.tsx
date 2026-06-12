@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { STRIPE_DONATE_URL } from '@/lib/constants';
+import DonateWayCard from '@/components/DonateWayCard';
 
 export const metadata: Metadata = { title: 'Join the Community' };
 
@@ -29,10 +29,11 @@ const STEPS = [
 
 const WAYS = [
   { title: 'Volunteer', href: '/volunteer', desc: 'Lend your time and skills to support our programs on the ground.' },
-  { title: 'Donate', href: STRIPE_DONATE_URL, desc: 'Fund a workshop, a seed bank, or a cultural gathering with a one-off or recurring gift.' },
   { title: 'Spread the Word', href: '#', desc: 'Share our work with your networks and help us reach more communities.' },
   { title: 'Partner With Us', href: '/support', desc: 'Organisations and institutions can partner formally to co-develop programs.' },
 ];
+
+const DONATE_DESC = 'Fund a workshop, a seed bank, or a cultural gathering with a one-off or recurring gift.';
 
 export default function CommunityPage() {
   return (
@@ -90,6 +91,7 @@ export default function CommunityPage() {
                 <p className="text-gray-600 text-sm leading-relaxed">{w.desc}</p>
               </a>
             ))}
+            <DonateWayCard desc={DONATE_DESC} />
           </div>
         </div>
       </section>

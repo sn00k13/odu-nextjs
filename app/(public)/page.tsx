@@ -5,8 +5,9 @@ import BlogCard from '@/components/BlogCard';
 import TestimonialCard from '@/components/TestimonialCard';
 import FaqSection from '@/components/FaqSection';
 import MapSection from '@/components/MapSection';
+import DonationTypeModal from '@/components/DonationTypeModal';
 import { getAllBlogs } from '@/lib/data';
-import { TESTIMONIALS, STRIPE_DONATE_URL } from '@/lib/constants';
+import { TESTIMONIALS } from '@/lib/constants';
 
 export const metadata: Metadata = {
   title: 'The Odù Project — Sustainable Agricultural Practices',
@@ -93,14 +94,10 @@ export default async function HomePage() {
               Empowering growers, preserving culture, and building sustainable communities for generations to come.
             </p>
             <div className="flex flex-wrap gap-4">
-              <a
-                href={STRIPE_DONATE_URL}
-                target="_blank"
-                rel="noreferrer noopener"
+              <DonationTypeModal
+                label="Donate Now"
                 className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded font-medium transition-colors"
-              >
-                Donate Now
-              </a>
+              />
               <Link
                 href="/about"
                 className="border-2 border-white hover:bg-white hover:text-gray-900 text-white px-8 py-3 rounded font-medium transition-colors"

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Heart } from 'lucide-react';
-import { STRIPE_DONATE_URL } from '@/lib/constants';
+import DonationTypeModal from '@/components/DonationTypeModal';
 
 const PRESET_AMOUNTS = ['$10', '$25', '$50', '$100'];
 
@@ -14,7 +14,12 @@ export default function DonateSection({ projectName }: Props) {
   const [selected, setSelected] = useState<string | null>(null);
   const [custom, setCustom] = useState('');
 
-  const donateUrl = STRIPE_DONATE_URL;
+  const buttonLabel =
+    custom && Number(custom) > 0
+      ? `Donate $${Number(custom).toLocaleString()}`
+      : selected
+      ? `Donate ${selected}`
+      : 'Donate Now';
 
   return (
     <section className="bg-rose-50 py-16 px-4">
@@ -68,22 +73,14 @@ export default function DonateSection({ projectName }: Props) {
         )}
 
         <div className="mt-4">
-          <a
-            href={donateUrl}
-            target="_blank"
-            rel="noreferrer noopener"
+          <DonationTypeModal
+            label={buttonLabel}
             className="inline-block bg-red-600 hover:bg-red-700 text-white font-semibold px-10 py-3.5 rounded transition-colors text-base"
-          >
-            {custom && Number(custom) > 0
-              ? `Donate $${Number(custom).toLocaleString()}`
-              : selected
-              ? `Donate ${selected}`
-              : 'Donate Now'}
-          </a>
+          />
         </div>
 
         <p className="mt-4 text-xs text-gray-500">
-          Secure payment powered by Stripe. Tax-deductible to the extent permitted by law.
+          Secure payment powered by Stripe.
         </p>
       </div>
     </section>

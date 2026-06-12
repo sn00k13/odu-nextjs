@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
-import { STRIPE_DONATE_URL } from '@/lib/constants';
+import DonationTypeModal from '@/components/DonationTypeModal';
 
 const NAV_LINKS = [
   { href: '/',          label: 'Home' },
@@ -55,14 +55,10 @@ export default function Header() {
 
           {/* Desktop CTA buttons */}
           <div className="hidden md:flex items-center gap-3">
-            <a
-              href={STRIPE_DONATE_URL}
-              target="_blank"
-              rel="noreferrer noopener"
+            <DonationTypeModal
+              label="Donate"
               className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded text-sm font-medium transition-colors"
-            >
-              Donate
-            </a>
+            />
             <Link
               href="/community"
               className="border border-gray-300 hover:border-gray-400 text-gray-700 px-5 py-2 rounded text-sm font-medium transition-colors"
@@ -101,14 +97,10 @@ export default function Header() {
             );
           })}
           <div className="pt-2 border-t border-gray-100 flex flex-col gap-3">
-            <a
-              href={STRIPE_DONATE_URL}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="block bg-red-600 text-white text-center py-2.5 rounded text-sm font-medium"
-            >
-              Donate
-            </a>
+            <DonationTypeModal
+              label="Donate"
+              className="block w-full bg-red-600 text-white text-center py-2.5 rounded text-sm font-medium"
+            />
             <Link
               href="/community"
               onClick={() => setOpen(false)}
