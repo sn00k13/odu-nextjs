@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { STRIPE_DONATE_URL } from '@/lib/constants';
+import DonationTypeModal from '@/components/DonationTypeModal';
 
 export const metadata: Metadata = { title: 'Support Us' };
 
@@ -51,14 +51,10 @@ export default function SupportPage() {
           <p className="text-gray-600 mb-8 leading-relaxed">
             Give whatever you can, whenever you can. Your gift goes directly towards workshops, cultural events, seed banks, and community assemblies.
           </p>
-          <a
-            href={STRIPE_DONATE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+          <DonationTypeModal
+            label="Donate Now"
             className="inline-block bg-red-600 text-white font-semibold px-10 py-3 rounded hover:bg-red-700 transition-colors"
-          >
-            Donate Now
-          </a>
+          />
           <p className="text-xs text-gray-400 mt-3">Processed securely via Stripe</p>
         </div>
       </section>
@@ -93,18 +89,14 @@ export default function SupportPage() {
                     </li>
                   ))}
                 </ul>
-                <a
-                  href={STRIPE_DONATE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`block text-center font-semibold py-2 rounded transition-colors text-sm ${
+                <DonationTypeModal
+                  label="Get started"
+                  className={`block w-full text-center font-semibold py-2 rounded transition-colors text-sm ${
                     t.featured
                       ? 'bg-red-600 text-white hover:bg-red-700'
                       : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
                   }`}
-                >
-                  Get started
-                </a>
+                />
               </div>
             ))}
           </div>
