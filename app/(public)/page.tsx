@@ -6,33 +6,12 @@ import TestimonialCard from '@/components/TestimonialCard';
 import FaqSection from '@/components/FaqSection';
 import MapSection from '@/components/MapSection';
 import DonationTypeModal from '@/components/DonationTypeModal';
-import { getAllBlogs } from '@/lib/data';
+import { getAllBlogs, getAllProjects } from '@/lib/data';
 import { TESTIMONIALS } from '@/lib/constants';
 
 export const metadata: Metadata = {
   title: 'The Odù Project — Sustainable Agricultural Practices',
 };
-
-const PROJECTS = [
-  {
-    title: 'Agricultural Training',
-    description: 'Learn vital skills in sustainable farming, crop management, and soil health.',
-    image: '/images/landing.jpg',
-    href: '/projects/agricultural-training',
-  },
-  {
-    title: 'Cultural Heritage',
-    description: 'Connect with ancestral wisdom and traditional agricultural practices.',
-    image: '/images/unsplash_bofe6iZUW_A-1.jpg',
-    href: '/projects/cultural-heritage',
-  },
-  {
-    title: 'Community Governance',
-    description: 'Participate in assemblies and learn about cooperative decision-making.',
-    image: '/images/unsplash.jpg',
-    href: '/projects/community-governance',
-  },
-];
 
 const STATS = [
   { value: '1,000+', label: 'Farmers To Be Trained' },
@@ -70,8 +49,9 @@ const CULTURE_CARDS = [
 const SELECTED_TESTIMONIALS = TESTIMONIALS.slice(0, 3);
 
 export default async function HomePage() {
-  const blogs = await getAllBlogs();
-  const latestBlogs = blogs.slice(0, 3);
+  const [blogs, projects] = await Promise.all([getAllBlogs(), getAllProjects()]);
+  const latestBlogs    = blogs.slice(0, 3);
+  const featuredProjects = projects.slice(0, 3);
 
   return (
     <>
@@ -119,22 +99,38 @@ export default async function HomePage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {PROJECTS.map(({ title, description, image, href }) => (
-              <div key={href} className="bg-white rounded overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                <div className="relative h-56">
-                  <Image src={image} alt={title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{title}</h3>
-                  <p className="text-gray-600 text-sm mb-4">{description}</p>
-                  <Link href={href} className="inline-flex items-center gap-1 text-red-600 hover:text-red-700 font-medium text-sm">
-                    Learn More →
-                  </Link>
-                </div>
+          {featuredProjects.length === 0 ? (
+            <p className="text-center text-gray-500">Projects coming soon.</p>
+          ) : (
+            <>
+              <div className="grid md:grid-cols-3 gap-8">
+                {featuredProjects.map((project) => (
+                  <div key={project.id} className="bg-white rounded overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    {project.image && (
+                      <div className="relative h-56">
+                        <Image src={project.image} alt={project.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
+                      </div>
+                    )}
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold text-gray-900 mb-2">{project.title}</h3>
+                      <p className="text-gray-600 text-sm mb-4">{project.description}</p>
+                      <Link href={`/projects/${project.id}`} className="inline-flex items-center gap-1 text-red-600 hover:text-red-700 font-medium text-sm">
+                        Learn More →
+                      </Link>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+              <div className="text-center mt-10">
+                <Link
+                  href="/projects"
+                  className="inline-block px-8 py-3 border-2 border-gray-300 text-gray-700 font-medium rounded hover:border-gray-400 hover:bg-gray-50 transition-colors"
+                >
+                  View All Projects
+                </Link>
+              </div>
+            </>
+          )}
         </div>
       </section>
 

@@ -53,6 +53,31 @@ h1, h2, h3, h4, h5, h6 {
 .ql-editor p { margin-bottom: 1em; }
 .ql-editor ul, .ql-editor ol { padding-left: 1.5em; margin-bottom: 1em; }
 
+/* Tiptap rendered content */
+.tiptap-content h1,
+.tiptap-content h2,
+.tiptap-content h3 {
+  font-family: 'DM Serif Display', serif;
+  margin-bottom: 0.5em;
+}
+.tiptap-content h1 { font-size: 1.875rem; }
+.tiptap-content h2 { font-size: 1.5rem; }
+.tiptap-content h3 { font-size: 1.25rem; }
+.tiptap-content p  { margin-bottom: 1em; }
+.tiptap-content ul,
+.tiptap-content ol { padding-left: 1.5em; margin-bottom: 1em; }
+.tiptap-content ul { list-style-type: disc; }
+.tiptap-content ol { list-style-type: decimal; }
+.tiptap-content strong { font-weight: 700; }
+.tiptap-content em    { font-style: italic; }
+.tiptap-content a     { color: #DC2626; text-decoration: underline; }
+.tiptap-content blockquote {
+  border-left: 4px solid #E5E7EB;
+  padding-left: 1rem;
+  color: #6B7280;
+  margin-bottom: 1em;
+}
+
 /* Donate amount pill */
 .donate-pill {
   border: 2px solid var(--color-border);

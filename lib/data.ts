@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import type { Blog, Comment } from '@/lib/types';
+import type { Blog, Comment, Project, Newsletter } from '@/lib/types';
 
 function mapBlog(row: Record<string, unknown>): Blog {
   return { ...(row as unknown as Blog), blog_id: row.id as number };
@@ -46,6 +46,52 @@ export async function getComments(blogId: number): Promise<Comment[]> {
     .order('created_at', { ascending: true });
   if (error || !data) return [];
   return data as Comment[];
+}
+
+export async function getAllProjects(): Promise<Project[]> {
+  const sb = await createClient();
+  const { data, error } = await sb
+    .from('projects')
+    .select('*')
+    .eq('published', true)
+    .order('created_at', { ascending: false });
+  if (error || !data) return [];
+  return data as Project[];
+}
+
+export async function getSingleProject(id: number): Promise<Project | null> {
+  const sb = await createClient();
+  const { data, error } = await sb
+    .from('projects')
+    .select('*')
+    .eq('id', id)
+    .eq('published', true)
+    .single();
+  if (error || !data) return null;
+  return data as Project;
+}
+
+export async function getAllNewsletters(): Promise<Newsletter[]> {
+  const sb = await createClient();
+  const { data, error } = await sb
+    .from('newsletters')
+    .select('*')
+    .eq('published', true)
+    .order('created_at', { ascending: false });
+  if (error || !data) return [];
+  return data as Newsletter[];
+}
+
+export async function getSingleNewsletter(id: number): Promise<Newsletter | null> {
+  const sb = await createClient();
+  const { data, error } = await sb
+    .from('newsletters')
+    .select('*')
+    .eq('id', id)
+    .eq('published', true)
+    .single();
+  if (error || !data) return null;
+  return data as Newsletter;
 }
 
 export async function getAllComments(): Promise<Comment[]> {

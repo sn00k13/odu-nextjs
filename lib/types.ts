@@ -23,12 +23,35 @@ export interface Comment {
   created_at: string;
 }
 
+export interface Project {
+  id: number;
+  title: string;
+  description: string;
+  content: string;
+  image: string;
+  category: string;
+  published: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Testimonial {
   img: string;
   name: string;
   role: string;
   message: string;
   rating: number;
+}
+
+export interface Newsletter {
+  id: number;
+  title: string;
+  subject: string;
+  content: string;
+  published: boolean;
+  sent_at: string | null;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface MapPoint {

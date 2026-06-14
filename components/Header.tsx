@@ -8,10 +8,12 @@ import { Menu, X } from 'lucide-react';
 import DonationTypeModal from '@/components/DonationTypeModal';
 
 const NAV_LINKS = [
-  { href: '/',          label: 'Home' },
-  { href: '/about',     label: 'About Us' },
-  { href: '/community', label: 'Community' },
-  { href: '/blog',      label: 'Blog' },
+  { href: '/',            label: 'Home' },
+  { href: '/about',       label: 'About Us' },
+  { href: '/projects',    label: 'Projects' },
+  { href: '/community',   label: 'Community' },
+  { href: '/blog',        label: 'Blog' },
+  { href: '/newsletter',  label: 'Newsletter' },
 ];
 
 export default function Header() {

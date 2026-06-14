@@ -1,14 +1,17 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import DonationTypeModal from '@/components/DonationTypeModal';
 
 const EXPLORE = [
-  { href: '/about',     label: 'About Us' },
-  { href: '/community', label: 'Community' },
-  { href: '/blog',      label: 'Blog' },
-  { href: '/volunteer', label: 'Volunteer' },
+  { href: '/about',       label: 'About Us' },
+  { href: '/projects',    label: 'Projects' },
+  { href: '/community',   label: 'Community' },
+  { href: '/blog',        label: 'Blog' },
+  { href: '/newsletter',  label: 'Newsletter' },
+  { href: '/volunteer',   label: 'Volunteer' },
 ];
 
 const SUPPORT = [
@@ -20,6 +23,33 @@ const SUPPORT = [
 ];
 
 export default function Footer() {
+  const [email, setEmail]     = useState('');
+  const [status, setStatus]   = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [message, setMessage] = useState('');
+
+  async function handleSubscribe(e: React.FormEvent) {
+    e.preventDefault();
+    setStatus('loading');
+    setMessage('');
+
+    const res = await fetch('/api/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
+
+    const data = await res.json().catch(() => ({}));
+
+    if (res.ok) {
+      setStatus('success');
+      setMessage('You\'re subscribed! Thank you.');
+      setEmail('');
+    } else {
+      setStatus('error');
+      setMessage(data.error ?? 'Something went wrong. Please try again.');
+    }
+  }
+
   return (
     <footer className="bg-[#4C4B4B]">
       <div className="max-w-6xl mx-auto py-12 px-4">
@@ -82,23 +112,35 @@ export default function Footer() {
 
           {/* Newsletter */}
           <div className="lg:col-span-3">
-            <h3 className="text-white text-sm font-semibold mb-4">Newsletter</h3>
-            <form
-              onSubmit={(e) => e.preventDefault()}
-              className="flex gap-2"
-            >
-              <input
-                type="email"
-                placeholder="Email address"
-                className="flex-1 px-4 py-2.5 rounded text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-red-500"
-              />
-              <button
-                type="submit"
-                className="bg-red-600 text-white px-5 py-2.5 rounded text-sm font-medium hover:bg-red-700 transition-colors whitespace-nowrap"
-              >
-                Subscribe
-              </button>
-            </form>
+            <h3 className="text-white text-sm font-semibold mb-1">Newsletter</h3>
+            <p className="text-gray-400 text-xs mb-4">Stay updated on our latest projects and community news.</p>
+            {status === 'success' ? (
+              <p className="text-green-400 text-sm font-medium">{message}</p>
+            ) : (
+              <>
+                <form onSubmit={handleSubscribe} className="flex gap-2">
+                  <input
+                    type="email"
+                    required
+                    placeholder="Email address"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={status === 'loading'}
+                    className="flex-1 px-4 py-2.5 rounded text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-60"
+                  />
+                  <button
+                    type="submit"
+                    disabled={status === 'loading'}
+                    className="bg-red-600 text-white px-5 py-2.5 rounded text-sm font-medium hover:bg-red-700 transition-colors whitespace-nowrap disabled:opacity-60"
+                  >
+                    {status === 'loading' ? '…' : 'Subscribe'}
+                  </button>
+                </form>
+                {status === 'error' && (
+                  <p className="text-red-400 text-xs mt-2">{message}</p>
+                )}
+              </>
+            )}
           </div>
         </div>
       </div>
